@@ -22,7 +22,6 @@ import org.scijava.plugin.Plugin;
 import clearvolume.utils.AppleMac;
 import de.mpicbg.jug.clearvolume.gui.ClearVolumeSplashFrame;
 import de.mpicbg.jug.clearvolume.gui.GenericClearVolumeGui;
-import de.mpicbg.jug.tutorials.Tutorial1;
 import net.imagej.ImgPlus;
 import net.imagej.display.DatasetView;
 import net.imglib2.display.ColorTable;
@@ -32,9 +31,9 @@ import net.imglib2.type.numeric.RealType;
 /**
  * @author jug
  */
-@Plugin( menu = { @Menu( label = "Plugins" ),
-				 @Menu( label = "ClearVolume" ),
-				 @Menu( label = "Open in ClearVolume" ) }, description = "Opens Stack in ClearVolume.", headless = false, type = Command.class )
+@Plugin( menu = { @Menu( label = "Tutorials" ),
+				  @Menu( label = "ClearVolume" ),
+				  @Menu( label = "Plugin 1" ) }, description = "Hello ClearVolume.", headless = false, type = Command.class )
 public class TutorialPlugin1< T extends RealType< T > & NativeType< T >> implements Command {
 
 	@Parameter( label = "3D ImgPlus to be shown." )
@@ -59,8 +58,6 @@ public class TutorialPlugin1< T extends RealType< T > & NativeType< T >> impleme
 	 */
 	@Override
 	public void run() {
-
-		Tutorial1.isStandalone = false;
 
 		imgPlus = ( ImgPlus< T > ) datasetView.getData().getImgPlus();
 		final List< ColorTable > luts = datasetView.getColorTables();
