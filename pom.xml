@@ -80,10 +80,10 @@
 		<license.licenseName>gpl_v3</license.licenseName>
 		<license.copyrightOwners>Max Planck Institute of Molecular
 Cell Biology and Genetics.</license.copyrightOwners>
-		<clearcl.version>0.3.6</clearcl.version>
-		<cleargl.version>2.0.0</cleargl.version> <!-- 1.0.18 -->
-		<clearvolume.version>1.3.20</clearvolume.version>
-		<CoreMem.version>0.3.2</CoreMem.version>
+		<clearcl.version>0.4.6</clearcl.version>
+		<cleargl.version>2.0.4</cleargl.version> <!-- 1.0.18 -->
+		<clearvolume.version>1.3.26</clearvolume.version>
+		<CoreMem.version>0.4.3</CoreMem.version>
 		<enforcer.skip>true</enforcer.skip>
 	</properties>
 
