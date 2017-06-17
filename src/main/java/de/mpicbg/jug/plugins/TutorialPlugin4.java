@@ -49,11 +49,43 @@ public class TutorialPlugin4< T extends RealType< T > & NativeType< T >> impleme
 	@Override
 	public void run() {
 		imgPlus = ( ImgPlus< T > ) datasetView.getData().getImgPlus();
-		frame = new JFrame( "ClearVolume Tutorial 4 - don't use GenericClearVolumeGUI" );
+		frame = new JFrame( "ClearVolume Tutorial 4 - use without GenericClearVolumeGUI" );
 		frame.setBounds( 50, 50, 1100, 800 );
 
-		final List< RandomAccessibleInterval< T > > images = getImageChannels( imgPlus, 2 );
+		final List< RandomAccessibleInterval< T > > images = getImageChannels( imgPlus, imgPlus.dimensionIndex( Axes.CHANNEL ) );
+		startClearVolumeManager( images );
 
+		// Ask the image which dimensions are X, Y, and Z
+		final int dX = imgPlus.dimensionIndex( Axes.X );
+		final int dY = imgPlus.dimensionIndex( Axes.Y );
+		final int dZ = imgPlus.dimensionIndex( Axes.Z );
+		// In case the image knew...
+		if ( dX != -1 && dY != -1 && dZ != -1 ) {
+			// ...set averageScale of these dimensions.
+			cvManager.setVoxelSize(
+					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.X ) ),
+					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.Y ) ),
+					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.Z ) ) );
+		} else if ( imgPlus.numDimensions() >= 3 ) {
+			// Otherwise assume dimension order X, Y, Z and set averageScale of those dimensions
+			cvManager.setVoxelSize(
+					imgPlus.averageScale( 0 ),
+					imgPlus.averageScale( 1 ),
+					imgPlus.averageScale( 2 ) );
+		}
+
+		frame.add( cvManager.getClearVolumeRendererInterface().getNewtCanvasAWT() );
+		frame.setVisible( true );
+	}
+
+	/**
+	 * Instantiates and runs a <code>ClearVolumeManager</code> on the given list
+	 * of images.
+	 *
+	 * @param images
+	 *            a <code>List</code> of channel images.
+	 */
+	private void startClearVolumeManager( final List< RandomAccessibleInterval< T > > images ) {
 		final Runnable todo = new Runnable() {
 
 			@Override
@@ -72,29 +104,17 @@ public class TutorialPlugin4< T extends RealType< T > & NativeType< T >> impleme
 				e.printStackTrace();
 			}
 		}
-
-		final int dX = imgPlus.dimensionIndex( Axes.X );
-		final int dY = imgPlus.dimensionIndex( Axes.Y );
-		final int dZ = imgPlus.dimensionIndex( Axes.Z );
-		if ( dX != -1 && dY != -1 && dZ != -1 ) {
-			cvManager.setVoxelSize(
-					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.X ) ),
-					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.Y ) ),
-					imgPlus.averageScale( imgPlus.dimensionIndex( Axes.Z ) ) );
-		} else if ( imgPlus.numDimensions() >= 3 ) {
-			cvManager.setVoxelSize(
-					imgPlus.averageScale( 0 ),
-					imgPlus.averageScale( 1 ),
-					imgPlus.averageScale( 2 ) );
-		}
 		cvManager.run();
-
-		frame.add( cvManager.getClearVolumeRendererInterface().getNewtCanvasAWT() );
-		frame.setVisible( true );
 	}
 
 	/**
+	 * Takes an multi-channel image and returns a list of images containing each
+	 * channel separately.
+	 *
 	 * @param imgPlus
+	 *            the multi-channel image.
+	 * @param channelDimension
+	 *            the dimension containing the channels.
 	 */
 	private List< RandomAccessibleInterval< T > > getImageChannels( final RandomAccessibleInterval< T > imgPlus, final int channelDimension ) {
 		final List< RandomAccessibleInterval< T > > newimages =
