@@ -18,7 +18,7 @@ import net.imagej.display.ImageDisplay;
 public class Tutorial1 {
 
 	public static void main( final String[] args ) {
-		final String filename = "XYZ.tif";
+		final String filename = "mri-stack.tif";
 		final URL iconURL = ClassLoader.getSystemClassLoader().getResource( filename );
 		final File file = new File( iconURL.getPath() );
 
