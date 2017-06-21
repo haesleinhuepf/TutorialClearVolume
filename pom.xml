@@ -91,7 +91,7 @@ Cell Biology and Genetics.</license.copyrightOwners>
 		<repository>
 			<id>imagej.public</id>
 			<name>ImageJ</name>
-			<url>https://maven.imagej.net/content/groups/public</url>
+			<url>http://maven.imagej.net/content/groups/public</url>
 		</repository>
 		<repository>
 			<id>bintray-CoreMem</id>
